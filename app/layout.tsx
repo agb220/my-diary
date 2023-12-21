@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import { Inter, Montserrat } from 'next/font/google'
 import './globals.css'
+import Logo from './components/Logo';
 
 const inter = Inter({ subsets: ['latin'], variable: "--font-inter" });
 const montserrat = Montserrat({ subsets: ['latin'], variable: "--font-montserrat" });
@@ -17,7 +18,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${montserrat.variable} ${inter.variable} flex flex-col items-center mt-10 bg-gray-500`}>{children}</body>
+      <body
+        className={`${montserrat.variable} ${inter.variable} flex flex-col items-center mt-10 bg-gray-500`}>
+        <Logo/>
+        {children}
+      </body>
     </html>
   )
 }
