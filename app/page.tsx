@@ -1,6 +1,11 @@
+import Duties from "./components/duties/Duties";
+
+
 
 export default function Home() {
   return (
-    <h1>MY DIARY</h1>
+    <main className="container text-gray-100 font-light  relative flex flex-col gap-8 px-4 pt-16 justify-center">
+      <Duties/>
+   </main>
   )
 }
