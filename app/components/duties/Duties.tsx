@@ -2,16 +2,16 @@
 import ItemDuty from "./Itemduty"
 
 const MOCK_DUTIES = {
-  "daily leetcode": {
-    '19.12.2023':true,
-    '20.12.2023': true,
-    '21.12.2023': false,
-  },
-   "daily React/NextJS": {
-    '19.12.2023':true,
-    '20.12.2023': true,
-    '21.12.2023': true,
-  },
+  // "daily leetcode": {
+  //   '19.12.2023':true,
+  //   '20.12.2023': true,
+  //   '21.12.2023': false,
+  // },
+  //  "daily React/NextJS": {
+  //   '19.12.2023':true,
+  //   '20.12.2023': true,
+  //   '21.12.2023': true,
+  // },
 }
 
 
