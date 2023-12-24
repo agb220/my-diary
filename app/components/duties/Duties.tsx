@@ -1,4 +1,5 @@
 
+import { kv } from "@vercel/kv"
 import ItemDuty from "./Itemduty"
 
 const MOCK_DUTIES = {
@@ -14,13 +15,17 @@ const MOCK_DUTIES = {
   // },
 }
 
+type DutySchedule = { [duty: string]: Record<string, boolean> } | {};
 
-const Duties = () => {
+
+const Duties = async () => {
+  const duties: DutySchedule = await kv.hgetall('duties') as DutySchedule;
+
   return (
     <>
-      {(Object.keys(MOCK_DUTIES).length !== 0) ?
-        Object.entries(MOCK_DUTIES).map(([duty], index) => (
-          <ItemDuty duty={duty} key={index} />
+      {(Object.keys(duties).length !== 0) ?
+        Object.entries(duties).map(([duty, dutyTime], index) => (
+          <ItemDuty duty={duty} key={index} dutyTime={dutyTime} />
         )) :
         <h2 className="text-xl  mt-20 font-display text-center">
           You have no registered duty

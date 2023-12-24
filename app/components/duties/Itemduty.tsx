@@ -1,8 +1,9 @@
-import Calendar from "../calendar/Calendar";
+import WeekSchedule from "../calendar/WeekSchedule";
 import Button from "../common/Button";
 
 interface ItemDutyProps{
-    duty: string;
+  duty: string;
+  dutyTime: any;
 }
 
 const  ItemDuty = (props:ItemDutyProps) => {
@@ -12,7 +13,7 @@ const  ItemDuty = (props:ItemDutyProps) => {
         <span className="text-xl font-sans">{props.duty}</span>
           <Button img={"/images/delete.svg"} />
        </div>
-       <Calendar/>
+       <WeekSchedule dutyTime={props.dutyTime} duty={props.duty} />
     </div>
   )
 }
