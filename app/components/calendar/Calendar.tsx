@@ -1,36 +1,39 @@
-import DayState from "./DayState";
-
-const weekDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-
+import { getDateInMonth } from "@/app/utils/function/getDateInMonth";
+import Button from "../common/Button"
+import { weekDays } from "./WeekSchedule";
 
 const Calendar = () => {
-  const today = new Date();
-  const todayWeekDay = today.getDay();
+    const currentDate = new Date();
+    const currentDay = currentDate.getDate();
+    const currentMonth = currentDate.getMonth();
+    const currentYear = currentDate.getFullYear();
+    const dayInMonth = getDateInMonth(currentMonth, currentYear);
+    const emptyDays = Array(dayInMonth[0].getDay()).fill(null);
 
-  console.log('todayWeekDay', todayWeekDay);
-
-  const sortedWeekDays = weekDays.slice(todayWeekDay).concat(weekDays.slice(0,todayWeekDay))
-
-  console.log('sortedWeekDays', sortedWeekDays);
-
-  const last7Days = weekDays.map((_, index) => {
-    const date = new Date();
-    date.setDate(date.getDate() - index)
-    return date.toISOString().slice(0, 10);
-  }).reverse();
-
-  console.log('last7Days', last7Days);
-
-  return (
-    <div className="grid grid-cols-7 bg-slate-400 rounded-md p-2">
-      {weekDays.map((day,index) => (
-        <div className="flex flex-col" key={index}>
-              <span className="font-sans text-center text-sm">{day}</span>
-              <DayState day={undefined}/>
+    return (
+      <div className="w-full my-2 rounded-md bg-gray-600">
+        <div className="flex justify-between mx-2 my-4 font-sans text-gray-300">
+          <Button img={"/images/arrow-next.svg"} classname="rotate-180" />
+          <span>December</span>
+          <Button img={"/images/arrow-next.svg"} />
         </div>
-      ))}      
-    </div>
+          <div className="grid w-full grid-cols-7 mt-2">
+            {weekDays.map((day,index) => (
+              <div className="flex flex-col items-center p-2" key={index}>
+                <span className="font-sans text-sm font-light text-gray-300">{day}</span>
+              </div>
+            ))}
+            {emptyDays.map((_, index) => (
+              <div className="flex flex-col items-center p-2" key={index} />
+            ))}
+            {dayInMonth.map((day, index) => (
+              <div className="flex flex-col items-center p-2" key={index}>
+                <span className="font-sans text-sm font-light text-gray-400">{day?.getDate()}</span>
+              </div>
+            ))}    
+          </div>
+      </div>
   )
 }
 
-export default Calendar
+    export default Calendar;
