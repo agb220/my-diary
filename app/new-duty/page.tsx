@@ -7,12 +7,17 @@ import { redirect } from "next/navigation";
 
 const NewDuty = () => {
   
-    async function newDuty(formData: FormData) {
-        "use server";
-        const duty = formData.get('duty');
-        await kv.hset('duties', { [duty as string]: {} });
-        revalidatePath('/');
-        redirect("/");
+  async function newDuty(formData: FormData) {  
+    "use server";
+    const duty = formData.get('duty');
+
+    if (duty?.toString().length === 0) {
+      return;
+    }
+    
+    await kv.hset('duties', { [duty as string]: {} });
+    revalidatePath('/');
+    redirect("/");
   }
 
   return (

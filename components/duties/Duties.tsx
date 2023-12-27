@@ -5,9 +5,6 @@ import ItemDuty from "./Itemduty"
 type DutiesProps = { duties: DutySchedule };
 
 const Duties =  (props:DutiesProps) => {
-
-  
-
   return (
     <>
     {props.duties !== null ?
