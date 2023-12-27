@@ -1,7 +1,8 @@
 import type { Metadata } from 'next'
 import { Inter, Montserrat } from 'next/font/google'
+import Logo from '../components/Logo';
+
 import './globals.css'
-import Logo from './components/Logo';
 
 const inter = Inter({ subsets: ['latin'], variable: "--font-inter" });
 const montserrat = Montserrat({ subsets: ['latin'], variable: "--font-montserrat" });

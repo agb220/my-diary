@@ -1,12 +1,13 @@
 import Image from "next/image";
 
 interface DayStateProps{
-    day: boolean | undefined;
+  day?: boolean | undefined;
+  onClick?: () => void;
 }
 
 const DayState = (props: DayStateProps) => {
     let image: [string, string, number?] = ['/images/down-arrow.svg', "in progress duty", 18];
-    
+  
     if (props.day === true) {
         image =  ['/images/checked.svg', "checked duty", 18];
     }
