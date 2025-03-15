@@ -1,5 +1,4 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import Button from "../common/Button"
 import { weekDays } from "./WeekSchedule";

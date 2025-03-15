@@ -10,8 +10,11 @@ interface ToggleDutyParams{
   done:boolean
 }
 
- export const toggleDuty = async ({ duty,dutyTime,date,done}: ToggleDutyParams) => {
-   if (!dutyTime || !date) {
+export const toggleDuty = async ({ duty, dutyTime, date, done }: ToggleDutyParams) => {
+  const day = new Date();
+  const currentDay = day.getDate();
+
+   if (!dutyTime || !date || (currentDay < Number(date.slice(-2)))) {
      return;
   }
    const updatedDutyTime = {
