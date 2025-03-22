@@ -1,35 +1,53 @@
-import { kv } from "@vercel/kv";
+"use client";
 
+import { db } from "../lib/firebaseConfig";
+import { doc, setDoc } from "firebase/firestore";
 import Button from "../../components/common/Button";
-import { revalidatePath } from "next/cache";
-import { redirect } from "next/navigation";
-
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 const NewDuty = () => {
-  
-  async function newDuty(formData: FormData) {  
-    "use server";
-    const duty = formData.get('duty');
+  const [duty, setDuty] = useState("");
+  const router = useRouter();
 
-    if (duty?.toString().length === 0) {
-      return;
-    }
-    
-    await kv.hset('duties', { [duty as string]: {} });
-    revalidatePath('/');
-    redirect("/");
+  async function newDuty(event: React.FormEvent) {
+    event.preventDefault();
+
+    if (!duty.trim()) return;
+
+    const dutyRef = doc(db, "duties", duty);
+    await setDoc(dutyRef, {});
+
+    router.push("/");
   }
 
   return (
-    <section className="container relative flex flex-col gap-8 px-12 pt-16" >
-      <h3 className="text-2xl font-light text-center font-display text-gray-100">create new duty</h3>
-        <form action={newDuty} className="flex flex-col gap-4 mt-4">
-          <input type="text" name="duty" id="duty" className="mb-5 p-2 font-sans text-xl text-gray-100 rounded  bg-slate-400 "/>
-          <Button title="Save" classname="bg-purple-300" type={"submit"} />
-          <Button title="Cancel" classname="bg-red-400"/>
-        </form>     
+    <section className="container flex flex-col gap-8">
+      <h3 className="text-2xl font-light text-center font-display text-gray-100">
+        create new duty
+      </h3>
+      <form onSubmit={newDuty} className="flex flex-col gap-4 mt-4">
+        <input
+          type="text"
+          name="duty"
+          id="duty"
+          value={duty}
+          onChange={(e) => setDuty(e.target.value)}
+          className="mb-5 p-2 font-sans text-xl rounded bg-slate-400 hover:bg-slate-300 duration-300"
+        />
+        <Button
+          title="Save"
+          classname="bg-purple-300 hover:bg-purple-400 hover:text-grey-100 duration-300"
+          type="submit"
+        />
+        <Button
+          title="Cancel"
+          classname="bg-red-400 hover:bg-red-500 hover:text-gray-100 duration-300"
+          onClick={() => router.push("/")}
+        />
+      </form>
     </section>
-  )
-}
+  );
+};
 
 export default NewDuty;

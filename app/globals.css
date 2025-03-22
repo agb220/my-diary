@@ -2,3 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
+.container {
+  @apply !mx-auto !max-w-[calc(100%-32px)] md:!max-w-[calc(100%-80px)] xl:!max-w-[1240px];
+}
