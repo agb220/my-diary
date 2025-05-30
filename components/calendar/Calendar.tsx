@@ -5,13 +5,15 @@ import { weekDays } from "./WeekSchedule";
 import DayState from "./DayState";
 import { toggleDuty } from "@/app/actions";
 import { getDateInMonth } from "@/utils/function/getDateInMonth";
+import { useAuth } from "@/context/AuthContext";
+import { Duty } from "@/app/page";
 
 interface CalendarProps {
-  duty: string;
-  dutyTime: Record<string, boolean> | null;
+  duty: Duty;
 }
 
 const Calendar = (props: CalendarProps) => {
+  const { user } = useAuth();
   const currentDate = new Date();
   const currentDay = currentDate.getDate();
   const currentMonth = currentDate.getMonth();
@@ -21,6 +23,9 @@ const Calendar = (props: CalendarProps) => {
   const [selectedDate, setSelectedDate] = useState(currentDate);
   const [dayInMonth, setDayInMonth] = useState(
     getDateInMonth(currentMonth, currentYear)
+  );
+  const [localDutyTime, setLocalDutyTime] = useState<Record<string, boolean>>(
+    props.duty.dutyTime ?? {}
   );
 
   useEffect(() => {
@@ -59,6 +64,31 @@ const Calendar = (props: CalendarProps) => {
       .padStart(2, "0")}`;
   };
 
+  const handleDayClick = async (day: Date) => {
+    const dateStr = getCurrentDay(day);
+    const prevDone = localDutyTime?.[dateStr] ?? false;
+
+    if (!user?.uid || !props.duty.id) return;
+
+    await toggleDuty({
+      uid: user.uid,
+      duty: props.duty.id,
+      dutyTime: localDutyTime,
+      date: dateStr,
+      done: prevDone,
+    });
+
+    setLocalDutyTime((prevState) => {
+      const newState = { ...prevState };
+      if (prevDone) {
+        delete newState[dateStr];
+      } else {
+        newState[dateStr] = true;
+      }
+      return newState;
+    });
+  };
+
   return (
     <div className="w-full rounded-md bg-gray-600 p-2 md:p-4">
       <div className="flex justify-between mx-2 my-4 font-sans text-gray-300">
@@ -83,28 +113,17 @@ const Calendar = (props: CalendarProps) => {
         ))}
         {dayInMonth.map((day, index) => (
           <div
-            className="flex flex-col items-center p-1 md:p-2 gap-1"
+            className="flex flex-col items-center p-1 md:p-2 gap-1 cursor-pointer"
             key={index}
-            onClick={() =>
-              toggleDuty({
-                duty: props.duty,
-                dutyTime: props.dutyTime,
-                date: getCurrentDay(day),
-                done: props.dutyTime
-                  ? props.dutyTime[getCurrentDay(day)]
-                  : true,
-              })
-            }
+            onClick={() => handleDayClick(day)}
           >
             <span className="font-sans text-sm font-light text-gray-400">
               {day?.getDate()}
             </span>
-            {day && (
+            {day && localDutyTime !== null && (
               <DayState
                 day={
-                  props.dutyTime
-                    ? props.dutyTime[getCurrentDay(day)]
-                    : undefined
+                  localDutyTime ? localDutyTime[getCurrentDay(day)] : undefined
                 }
               />
             )}

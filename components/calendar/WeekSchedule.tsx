@@ -1,11 +1,11 @@
 import Link from "next/link";
 import DayState from "./DayState";
+import { Duty } from "@/app/page";
 
 export const weekDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 interface WeekScheduleProps {
-  dutyTime: any;
-  duty: string;
+  duty: Duty;
 }
 
 const WeekSchedule = (props: WeekScheduleProps) => {
@@ -25,7 +25,7 @@ const WeekSchedule = (props: WeekScheduleProps) => {
 
   return (
     <Link
-      href={`duty/${props.duty}`}
+      href={`duty/${props.duty.id}`}
       className="grid grid-cols-7 bg-slate-400 rounded-md px-1 md:px-2  md:py-4 py-2 gap-1 overflow-y-auto"
     >
       {sortedWeekDays.map((day, index) => (
@@ -36,8 +36,8 @@ const WeekSchedule = (props: WeekScheduleProps) => {
           <span className="font-sans text-center text-[10px] sm:text-xs md:text-sm">
             {day}
           </span>
-          {day && props.dutyTime !== null && (
-            <DayState day={props?.dutyTime[last7Days[index]]} />
+          {day && props.duty.dutyTime !== null && (
+            <DayState day={props?.duty.dutyTime[last7Days[index]]} />
           )}
         </div>
       ))}

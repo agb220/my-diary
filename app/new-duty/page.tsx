@@ -1,25 +1,42 @@
 "use client";
-
-import { db } from "../lib/firebaseConfig";
-import { doc, setDoc } from "firebase/firestore";
-import Button from "../../components/common/Button";
-import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import {
+  addDoc,
+  collection,
+  doc,
+  serverTimestamp,
+  setDoc,
+} from "firebase/firestore";
+import { db } from "../firebaseConfig";
+import { useAuth } from "@/context/AuthContext";
+import Button from "../../components/common/Button";
 
 const NewDuty = () => {
   const [duty, setDuty] = useState("");
   const router = useRouter();
+  const { user } = useAuth();
 
   async function newDuty(event: React.FormEvent) {
     event.preventDefault();
 
-    if (!duty.trim()) return;
+    if (!duty.trim() || !user) return;
 
-    const dutyRef = doc(db, "duties", duty);
-    await setDoc(dutyRef, {});
+    try {
+      const dutyRef = collection(db, "users", user.uid, "duties");
+      await addDoc(dutyRef, {
+        title: duty,
+        dutyTime: {},
+        createdAt: serverTimestamp(),
+      });
 
-    router.push("/");
+      router.push("/");
+    } catch (error) {
+      console.error("Помилка при додаванні duty:", error);
+    }
   }
+
+  // console.log("user", user);
 
   return (
     <section className="container flex flex-col gap-8">

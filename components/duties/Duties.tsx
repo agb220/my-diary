@@ -15,17 +15,16 @@ const Duties = (props: DutiesProps) => {
           Loading...
         </h2>
       ) : props.duties !== null && Object.keys(props.duties).length > 0 ? (
-        Object.entries(props.duties).map(([duty, dutyTime], index) => (
+        Object.entries(props.duties).map(([dutyKey], index) => (
           <ItemDuty
-            duty={duty}
+            duty={props.duties[dutyKey]}
             key={index}
-            dutyTime={dutyTime}
             setIsLoading={setIsLoading}
           />
         ))
       ) : (
-        <h2 className="text-xl mt-20 text-center">
-          You have no registered duty
+        <h2 className="text-xl text-center col-span-4 text-gray-300">
+          You do not have any plans registered. You can add one.
         </h2>
       )}
     </>

@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 
 import "./globals.css";
+import { AuthProvider } from "@/context/AuthContext";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const montserrat = Montserrat({
@@ -27,9 +28,11 @@ export default function RootLayout({
         className={`${montserrat.variable} ${inter.variable} bg-gray-500 h-screen container font-sans`}
       >
         <div className="flex flex-col items-center min-h-full justify-between">
-          <Header />
-          {children}
-          <Footer />
+          <AuthProvider>
+            <Header />
+            {children}
+            <Footer />
+          </AuthProvider>
         </div>
       </body>
     </html>

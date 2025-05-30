@@ -6,6 +6,8 @@ interface DayStateProps {
 }
 
 const DayState = (props: DayStateProps) => {
+  console.log("day", props.day);
+
   let image: [string, string, number?] = [
     "/images/down-arrow.svg",
     "in progress duty",

@@ -2,30 +2,36 @@
 import { deleteDuty } from "@/app/actions";
 import WeekSchedule from "../calendar/WeekSchedule";
 import Button from "../common/Button";
+import { Duty } from "@/app/page";
+import { useAuth } from "@/context/AuthContext";
 
 interface ItemDutyProps {
-  duty: any;
-  dutyTime: any;
+  duty: Duty;
   setIsLoading: (arg: boolean) => void;
 }
 
 const ItemDuty = (props: ItemDutyProps) => {
-  const handleClick = async (duty: string) => {
+  const { user } = useAuth();
+
+  const handleClick = async (id: string) => {
     props.setIsLoading(true);
-    await deleteDuty(duty);
+
+    if (user) await deleteDuty(user?.uid, id);
     props.setIsLoading(false);
   };
 
   return (
     <div className="flex flex-col gap-4">
       <div className="flex justify-between">
-        <span className="text-xl font-sans break-words mr-2">{props.duty}</span>
+        <span className="text-xl font-sans break-words mr-2">
+          {props.duty.title}
+        </span>
         <Button
           img={"/images/delete.svg"}
-          onClick={() => handleClick(props.duty)}
+          onClick={() => handleClick(props.duty.id)}
         />
       </div>
-      <WeekSchedule dutyTime={props.dutyTime} duty={props.duty} />
+      <WeekSchedule duty={props.duty} />
     </div>
   );
 };

@@ -7,6 +7,7 @@ interface ButtonProps {
   onClick?: () => void;
   type?: "submit" | "reset" | "button" | undefined;
   disabled?: boolean;
+  loading?: boolean;
 }
 
 const Button = (props: ButtonProps) => {
@@ -22,7 +23,7 @@ const Button = (props: ButtonProps) => {
       {props.img ? (
         <Image src={props.img} alt={"icon button"} width={18} height={18} />
       ) : (
-        <span>{props.title}</span>
+        <span className="relative z-20">{props.title}</span>
       )}
     </button>
   );
