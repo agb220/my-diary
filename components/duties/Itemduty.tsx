@@ -1,9 +1,11 @@
 "use client";
-import { deleteDuty } from "@/app/actions";
+import { useState } from "react";
 import WeekSchedule from "../calendar/WeekSchedule";
 import Button from "../common/Button";
 import { Duty } from "@/app/page";
+import { deleteDuty } from "@/app/actions";
 import { useAuth } from "@/context/AuthContext";
+import ConfirmModal from "../modals/ConfirmModal";
 
 interface ItemDutyProps {
   duty: Duty;
@@ -12,6 +14,8 @@ interface ItemDutyProps {
 
 const ItemDuty = (props: ItemDutyProps) => {
   const { user } = useAuth();
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleClick = async (id: string) => {
     props.setIsLoading(true);
@@ -28,10 +32,17 @@ const ItemDuty = (props: ItemDutyProps) => {
         </span>
         <Button
           img={"/images/delete.svg"}
-          onClick={() => handleClick(props.duty.id)}
+          onClick={() => setIsModalOpen(true)}
         />
       </div>
       <WeekSchedule duty={props.duty} />
+      <ConfirmModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        onConfirm={() => handleClick(props.duty.id)}
+        title="Deletion"
+        message="Are you sure you want to delete duty?"
+      />
     </div>
   );
 };
