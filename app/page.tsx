@@ -27,8 +27,6 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
   const { user } = useAuth();
 
-  console.log("currentUser", user);
-
   useEffect(() => {
     if (!user?.uid) return;
     setLoading(true);

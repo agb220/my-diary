@@ -36,8 +36,6 @@ const NewDuty = () => {
     }
   }
 
-  // console.log("user", user);
-
   return (
     <section className="container flex flex-col gap-8">
       <h3 className="text-2xl font-light text-center font-display text-gray-100">

@@ -10,8 +10,14 @@ const Header = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleLogout = async () => {
+    if (!user) return;
     await logout();
     setIsModalOpen(false);
+  };
+
+  const handleOpenModal = () => {
+    if (!user) return;
+    setIsModalOpen(true);
   };
 
   return (
@@ -23,7 +29,7 @@ const Header = () => {
         width={40}
         height={32}
         className="max-h-8 cursor-pointer"
-        onClick={() => setIsModalOpen(true)}
+        onClick={handleOpenModal}
       />
       <ConfirmModal
         isOpen={isModalOpen}
