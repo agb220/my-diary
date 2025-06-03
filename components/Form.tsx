@@ -38,11 +38,10 @@ const Form = (props: FormProps) => {
   const { login, signup, user } = useAuth();
 
   const onSubmit: SubmitHandler<Inputs> = async (data) => {
-    if (loading) {
-      return;
-    }
+    if (loading) return;
 
     setLoading(true);
+
     if (!data.email || !data.password) {
       setError("root", {
         type: "manual",
@@ -51,18 +50,23 @@ const Form = (props: FormProps) => {
       setLoading(false);
       return;
     }
-    if (isLoggingIn) {
-      try {
+
+    try {
+      if (isLoggingIn) {
         await login(data.email, data.password);
-      } catch (err) {
-        setError("root", {
-          type: "manual",
-          message: "Incorrect email or password",
-        });
+      } else {
+        await signup(data.email, data.password);
       }
-      return;
+    } catch (err: any) {
+      setError("root", {
+        type: "manual",
+        message: isLoggingIn
+          ? "Incorrect email or password"
+          : err?.message || "Registration failed",
+      });
+    } finally {
+      setLoading(false);
     }
-    await signup(data.email, data.password);
   };
 
   return (
@@ -102,7 +106,7 @@ const Form = (props: FormProps) => {
           loading={loading}
           disabled={loading}
           title="Submit"
-          classname="w-full border border-white border-solid uppercase py-2 duration-300 relative after:absolute after:top-0 after:right-full after:bg-purple-400 after:z-10 after:w-full after:h-full overflow-hidden hover:after:translate-x-full after:duration-300 text-white hover:!text-gray-200"
+          classname="w-full border border-white border-solid uppercase py-2 duration-300 relative after:absolute after:top-0 after:right-full after:bg-purple-400 after:z-10 after:w-full after:h-full overflow-hidden hover:after:translate-x-full after:duration-300 text-white hover:!text-gray-200 cursor-pointer"
         ></Button>
         <div
           className="duration-300 hover:scale-110 cursor-pointer"
