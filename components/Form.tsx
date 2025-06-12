@@ -18,6 +18,7 @@ interface FormProps {
   formName?: string; // value which be displayer
   setIsOpenModal?: (arg: boolean) => void;
   fromUrl?: string;
+  onClose: (arg: boolean) => void;
 }
 
 const Form = (props: FormProps) => {
@@ -29,6 +30,7 @@ const Form = (props: FormProps) => {
     setValue,
     setError,
     watch,
+
     formState: { errors },
   } = useForm<Inputs>();
 
@@ -54,6 +56,7 @@ const Form = (props: FormProps) => {
     try {
       if (isLoggingIn) {
         await login(data.email, data.password);
+        props.onClose(false);
       } else {
         await signup(data.email, data.password);
       }
@@ -66,6 +69,7 @@ const Form = (props: FormProps) => {
       });
     } finally {
       setLoading(false);
+      props.onClose(false);
     }
   };
 

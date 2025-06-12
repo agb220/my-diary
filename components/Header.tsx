@@ -4,10 +4,12 @@ import Image from "next/image";
 import Logo from "./Logo";
 import { useAuth } from "@/context/AuthContext";
 import ConfirmModal from "./modals/ConfirmModal";
+import FormModal from "./modals/FormModal";
 
 const Header = () => {
   const { logout, user } = useAuth();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalFormOpen, setIsModalFormOpen] = useState(false);
 
   const handleLogout = async () => {
     if (!user) return;
@@ -16,8 +18,11 @@ const Header = () => {
   };
 
   const handleOpenModal = () => {
-    if (!user) return;
-    setIsModalOpen(true);
+    if (!user) {
+      setIsModalFormOpen(true);
+    } else {
+      setIsModalOpen(true);
+    }
   };
 
   return (
@@ -37,6 +42,10 @@ const Header = () => {
         onConfirm={handleLogout}
         title="Log out"
         message="Are you sure you want to log out of your account?"
+      />
+      <FormModal
+        isOpen={isModalFormOpen}
+        onClose={() => setIsModalFormOpen(false)}
       />
     </header>
   );

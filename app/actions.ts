@@ -56,7 +56,7 @@ export const toggleDuty = async ({
     }
 
     // Оновлюємо сторінку з розкладу і головну
-    revalidatePath("/duty/[duty]", "page");
+    revalidatePath("/[duty]", "page");
     revalidatePath("/", "page");
   } catch (error) {
     console.error("❌ Error updating duty:", error);

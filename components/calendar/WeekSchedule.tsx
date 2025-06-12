@@ -25,7 +25,7 @@ const WeekSchedule = (props: WeekScheduleProps) => {
 
   return (
     <Link
-      href={`duty/${props.duty.id}`}
+      href={`${props.duty.id}`}
       className="grid grid-cols-7 bg-slate-400 rounded-md px-1 md:px-2  md:py-4 py-2 gap-1 overflow-y-auto"
     >
       {sortedWeekDays.map((day, index) => (
