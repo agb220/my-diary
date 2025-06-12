@@ -75,7 +75,7 @@ const Form = (props: FormProps) => {
 
   return (
     <div className="py-6">
-      <h1 className="text-2xl mb-10 text-center font-semibold uppercase">
+      <h1 className="text-2xl mb-10 text-center font-semibold uppercase text-white">
         {isLoggingIn ? "Login" : "Register"}
       </h1>
       <form
@@ -113,7 +113,7 @@ const Form = (props: FormProps) => {
           classname="w-full border border-white border-solid uppercase py-2 duration-300 relative after:absolute after:top-0 after:right-full after:bg-purple-400 after:z-10 after:w-full after:h-full overflow-hidden hover:after:translate-x-full after:duration-300 text-white hover:!text-gray-200 cursor-pointer"
         ></Button>
         <div
-          className="duration-300 hover:scale-110 cursor-pointer"
+          className="duration-300 hover:scale-110 cursor-pointer text-white"
           onClick={() => setIsLoggingIn(!isLoggingIn)}
         >
           {!isLoggingIn ? "Login" : "Register"}
